@@ -3,7 +3,7 @@ extends CharacterBody2D
 const MAX_SPEED = 75
 
 func _ready():
-	pass # Replace with function body.
+	pass
 
 func _process(delta):
 	var direction = get_direction_to_player()
