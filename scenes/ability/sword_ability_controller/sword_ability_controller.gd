@@ -11,20 +11,22 @@ func _ready():
 func on_timer_timeout():
 	var player = get_tree().get_first_node_in_group("player") as Node2D
 	var enemies = get_tree().get_nodes_in_group("enemy")
+	var get_enemy_distance = func(a: Node2D):
+		return a.global_position.distance_squared_to(player.global_position)
 
 	if player == null:
 		return
 	
 	enemies = enemies.filter(func(enemy: Node2D):
-		return enemy.global_position.distance_squared_to(player.global_position) < pow(MAX_RANGE, 2)
+		return get_enemy_distance.call(enemy) < pow(MAX_RANGE, 2)
 	)
 	
 	if enemies.size() == 0:
 		return
 		
 	enemies.sort_custom(func(a: Node2D, b: Node2D):
-		var a_distance = a.global_position.distance_squared_to(player.global_position)
-		var b_distance = b.global_position.distance_squared_to(player.global_position)
+		var a_distance = get_enemy_distance.call(a)
+		var b_distance = get_enemy_distance.call(b)
 		
 		return a_distance < b_distance
 	)
